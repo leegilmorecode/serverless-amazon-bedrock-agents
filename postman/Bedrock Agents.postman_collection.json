@@ -1,0 +1,39 @@
+{
+  "info": {
+    "_postman_id": "55dd64b8-e0e8-4c39-a97e-303a717a257a",
+    "name": "Bedrock Agents",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "752706"
+  },
+  "item": [
+    {
+      "name": "New Request",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"agentId\": \"YOUR_AGENT_ID\",\n    \"agentAliasId\": \"YOUR_AGENT_ALIAS_ID\",\n    \"sessionId\": \"0f6aa00e-e585-49aa-aa2d-16adb64857c6\",\n    \"prompt\": \"I would like to book a hotel room on the 2024–02–25, what is available?\"\n  }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://your-lambda-function-url-id.lambda-url.us-east-1.on.aws/",
+          "protocol": "https",
+          "host": [
+            "your-lambda-function-url-id",
+            "lambda-url",
+            "us-east-1",
+            "on",
+            "aws"
+          ],
+          "path": [""]
+        }
+      },
+      "response": []
+    }
+  ]
+}
