@@ -61,6 +61,23 @@ export class LjResortsStatefulStack extends cdk.Stack {
       instruction: `Please help our customers with queries on hotel opening hours and prices, spa prices, special offers and room cancellation policies`,
     });
 
+    // add the action group for making bookings
+    const agentActionGroup = new bedrock.AgentActionGroup(
+      this,
+      'AgentActionGroup',
+      {
+        actionGroupName: 'agent-action-group',
+        description: 'The action group for making a booking',
+        apiSchema: bedrock.S3ApiSchema.fromAsset(
+          path.join(__dirname, './schema/api-schema.json')
+        ),
+        actionGroupState: 'ENABLED',
+        actionGroupExecutor: {
+          lambda: actionGroupAgentLambda,
+        },
+      }
+    );
+
     // create the bedrock agent
     const agent = new bedrock.Agent(this, 'BedrockAgent', {
       name: 'Agent',
@@ -72,19 +89,7 @@ export class LjResortsStatefulStack extends cdk.Stack {
       knowledgeBases: [kb],
       shouldPrepareAgent: true,
       aliasName: 'Agent',
-    });
-
-    // add the action group for making bookings
-    new bedrock.AgentActionGroup(this, 'AgentActionGroup', {
-      actionGroupName: 'agent-action-group',
-      description: 'The action group for making a booking',
-      agent: agent,
-      apiSchema: bedrock.S3ApiSchema.fromAsset(
-        path.join(__dirname, './schema/api-schema.json')
-      ),
-      actionGroupState: 'ENABLED',
-      actionGroupExecutor: actionGroupAgentLambda,
-      shouldPrepareAgent: true,
+      actionGroups: [agentActionGroup],
     });
 
     // create the s3 bucket which houses our company data as a source for the bedrock knowledge base
